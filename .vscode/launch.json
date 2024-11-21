@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Run Cucumber Test",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "mainClass": "io.cucumber.core.cli.Main",
+            "args": [
+                "src/test/java/features",
+                "--glue", "stepDefinitions"
+            ]
+        }
+    ]
+}

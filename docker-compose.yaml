@@ -1,0 +1,6 @@
+services:
+  my-service:
+   build:
+    context: . 
+    dockerfile: Dockerfile 
+   image: restassured-cucumber:latest
