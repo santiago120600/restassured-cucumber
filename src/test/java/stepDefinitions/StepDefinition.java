@@ -1,9 +1,13 @@
 package stepDefinitions;
 
+import static io.restassured.RestAssured.given;
+import static org.junit.Assert.assertEquals;
+
+import java.io.FileNotFoundException;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -11,30 +15,24 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import resources.TestDataBuild;
+import resources.Utils;
 
-import static io.restassured.RestAssured.given;
-import static org.junit.Assert.assertEquals;
-
-public class StepDefinition {
-    RequestSpecification req;
-    ResponseSpecification resspec;
-    RequestSpecification res;
+public class StepDefinition extends Utils{
+    RequestSpecification reqSpec;
     Response response;
 
     @Given("Add Place Payload")
-    public void add_place_payload() {
-       
-        req = new RequestSpecBuilder().setBaseUri("https://rahulshettyacademy.com").addQueryParam("key", "qaclick123")
-        .setContentType(ContentType.JSON).build();
-
-        resspec = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
+    public void add_place_payload() throws FileNotFoundException {
         TestDataBuild testDataBuild = new TestDataBuild();
-        res = given().spec(req).body(testDataBuild.add_place_payload());
+        reqSpec = given().spec(requestSpecification()).body(testDataBuild.add_place_payload());
     }
 
-    @When("User calls {string} with Post http request")
-    public void user_calls_with_post_http_request(String string) {
-        response = res.when().post("/maps/api/place/add/json").then().spec(resspec).extract().response();
+    @When("User calls {string} with {string} http request")
+    public void user_calls_with_post_http_request(String endpoint, String httpMethod) {
+        if(httpMethod.equals("Post")){
+            ResponseSpecification resspec = new ResponseSpecBuilder().expectContentType(ContentType.JSON).expectStatusCode(200).build();
+            response = reqSpec.when().post(endpoint).then().spec(resspec).extract().response();
+        }
     }
 
     @Then("the API call got success with status code {int}")
