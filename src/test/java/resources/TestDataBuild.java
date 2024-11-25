@@ -8,20 +8,20 @@ import pojo.Location;
 
 public class TestDataBuild {
 
-    public AddPlace add_place_payload(){
+    public AddPlace add_place_payload(String name, String address, String language, String website, double latitude ,double longitude, int accuracy, String types){
         AddPlace place = new AddPlace();
         Location location = new Location();
-        location.setLat(-38.383494);
-        location.setLng(33.427362);
+        location.setLat(latitude);
+        location.setLng(longitude);
         place.setLocation(location);
-        place.setAccuracy(50);
-        place.setName("Canton de santi");
-        place.setAddress("Melchor ocampo");
-        List<String> types = new ArrayList<String>();
-        types.add("shop");
-        place.setTypes(types);
-        place.setWebsite("http://google.com");
-        place.setLanguage("Spanish");
+        place.setAccuracy(accuracy);
+        place.setName(name);
+        place.setAddress(address);
+        List<String> typesList = new ArrayList<String>();
+        typesList.add(types);
+        place.setTypes(typesList);
+        place.setWebsite(website);
+        place.setLanguage(language);
         return place;
     }
 }

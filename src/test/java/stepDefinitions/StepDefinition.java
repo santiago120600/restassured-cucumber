@@ -22,10 +22,10 @@ public class StepDefinition extends Utils{
     RequestSpecification reqSpec;
     Response response;
 
-    @Given("Add Place Payload")
-    public void add_place_payload() throws FileNotFoundException, IOException {
+    @Given("Add Place Payload with {string} {string} {string} {string} {string} {int} {double} {double}")
+    public void add_place_payload_with(String name, String address, String types, String website, String language, Integer accuracy, Double latitude, Double longitude) throws FileNotFoundException, IOException {
         TestDataBuild testDataBuild = new TestDataBuild();
-        reqSpec = given().spec(requestSpecification()).body(testDataBuild.add_place_payload());
+        reqSpec = given().spec(requestSpecification()).body(testDataBuild.add_place_payload(name, address, language, website, latitude, longitude, accuracy, types));
     }
 
     @When("User calls {string} with {string} http request")
