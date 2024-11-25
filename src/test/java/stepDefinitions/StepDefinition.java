@@ -9,6 +9,7 @@ import java.io.IOException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -25,7 +26,9 @@ public class StepDefinition extends Utils{
     @Given("Add Place Payload with {string} {string} {string} {string} {string} {int} {double} {double}")
     public void add_place_payload_with(String name, String address, String types, String website, String language, Integer accuracy, Double latitude, Double longitude) throws FileNotFoundException, IOException {
         TestDataBuild testDataBuild = new TestDataBuild();
-        reqSpec = given().spec(requestSpecification()).body(testDataBuild.add_place_payload(name, address, language, website, latitude, longitude, accuracy, types));
+        reqSpec = given()
+        .filter(new AllureRestAssured())
+        .spec(requestSpecification()).body(testDataBuild.add_place_payload(name, address, language, website, latitude, longitude, accuracy, types));
     }
 
     @When("User calls {string} with {string} http request")

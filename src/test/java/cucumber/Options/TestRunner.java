@@ -6,7 +6,14 @@ import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/java/features",glue = {"stepDefinitions"})
+@CucumberOptions(
+    features = "src/test/java/features",
+    plugin = {
+        "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
+        "progress",
+        "summary"
+    },
+    glue = {"stepDefinitions"})
 public class TestRunner {
 
 }
