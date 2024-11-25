@@ -7,10 +7,9 @@
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
-            "mainClass": "io.cucumber.core.cli.Main",
+            "mainClass": "org.junit.runner.JUnitCore",
             "args": [
-                "src/test/java/features",
-                "--glue", "stepDefinitions"
+                "cucumber.Options.TestRunner"
             ]
         }
     ]
