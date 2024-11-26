@@ -32,6 +32,19 @@
                 "eclipse:eclipse",
             ],
             "problemMatcher": []
-        }
+        },
+        {
+            "label": "Open allure report",
+            "type": "shell",
+            "command": "allure serve allure-results",
+            "problemMatcher": [],
+            "isBackground": false,
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            }
+        },
 	]
 }
