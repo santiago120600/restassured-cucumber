@@ -10,7 +10,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.qameta.allure.restassured.AllureRestAssured;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import resources.APIResources;
@@ -20,10 +19,11 @@ import resources.Utils;
 public class StepDefinition extends Utils{
     RequestSpecification reqSpec;
     Response response;
+    TestDataBuild testDataBuild = new TestDataBuild();
+    static String placeId;
 
     @Given("Add Place Payload with {string} {string} {string} {string} {string} {int} {double} {double}")
     public void add_place_payload_with(String name, String address, String types, String website, String language, Integer accuracy, Double latitude, Double longitude) throws FileNotFoundException, IOException {
-        TestDataBuild testDataBuild = new TestDataBuild();
         reqSpec = given()
         .filter(new AllureRestAssured())
         .spec(requestSpecification()).body(testDataBuild.add_place_payload(name, address, language, website, latitude, longitude, accuracy, types));
@@ -49,9 +49,23 @@ public class StepDefinition extends Utils{
 
     @Then("{string} in response body is {string}")
     public void in_response_body_is(String key, String value) {
-        String resp = response.asString();
-        JsonPath js = new JsonPath(resp);
-        assertEquals(js.get(key).toString(), value);
+        assertEquals(getJsonPath(response, key), value);
+    }
+
+    @Then("verify place_id created maps to {string} using {string}")
+    public void verify_place_id_created_maps_to_using(String expectedName, String resource) throws IOException {
+        placeId = getJsonPath(response, "place_id");
+        reqSpec = given().spec(requestSpecification()).queryParam("place_id", placeId);
+        user_calls_with_post_http_request(resource, "GET");
+        String actualName = getJsonPath(response, "name");
+        assertEquals(actualName, expectedName);
+    }
+
+    @Given("Delete Place Payload")
+    public void delete_place_payload() throws IOException {
+        reqSpec = given()
+        .filter(new AllureRestAssured())
+        .spec(requestSpecification()).body(testDataBuild.delete_place_payload(placeId));
     }
 
 }

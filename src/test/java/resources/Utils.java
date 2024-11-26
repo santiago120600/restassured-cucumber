@@ -6,6 +6,8 @@ import java.util.Properties;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
 
@@ -22,5 +24,11 @@ public class Utils {
         FileInputStream file = new FileInputStream("src\\test\\java\\resources\\global.properties");
         properties.load(file);
         return properties.getProperty(key);
+    }
+
+    protected String getJsonPath(Response response, String key){
+        String resp = response.asString();
+        JsonPath js = new JsonPath(resp);
+        return js.get(key).toString();
     }
 }
