@@ -10,12 +10,10 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.qameta.allure.restassured.AllureRestAssured;
-import io.restassured.builder.ResponseSpecBuilder;
-import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
+import resources.APIResources;
 import resources.TestDataBuild;
 import resources.Utils;
 
@@ -32,10 +30,15 @@ public class StepDefinition extends Utils{
     }
 
     @When("User calls {string} with {string} http request")
-    public void user_calls_with_post_http_request(String endpoint, String httpMethod) {
-        if(httpMethod.equals("Post")){
-            ResponseSpecification resspec = new ResponseSpecBuilder().expectContentType(ContentType.JSON).expectStatusCode(200).build();
-            response = reqSpec.when().post(endpoint).then().spec(resspec).extract().response();
+    public void user_calls_with_post_http_request(String api, String httpMethod) {
+        APIResources apiResource = APIResources.valueOf(api);
+
+        if(httpMethod.equalsIgnoreCase("POST")){
+            response = reqSpec.when().post(apiResource.getResource());
+        }else if(httpMethod.equalsIgnoreCase("GET")){
+            response = reqSpec.when().get(apiResource.getResource());
+        }else if(httpMethod.equalsIgnoreCase("DELETE")){
+            response = reqSpec.when().delete(apiResource.getResource());
         }
     }
 
