@@ -13,7 +13,8 @@ import io.cucumber.junit.CucumberOptions;
         "progress",
         "summary"
     },
-    glue = {"stepDefinitions"})
+    glue = {"stepDefinitions"},
+    tags = "@DeletePlace")
 public class TestRunner {
 
 }

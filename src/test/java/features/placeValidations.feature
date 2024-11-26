@@ -1,5 +1,6 @@
 Feature: Validating Place API's 
 
+@AddPlace
 Scenario Outline: Verify if Place is being Successfully added using AddPlaceAPI
     Given Add Place Payload with '<name>' '<address>' '<types>' '<website>' '<language>' <accuracy> <latitude> <longitude>
     When User calls "addPlaceAPI" with "Post" http request
@@ -12,6 +13,7 @@ Scenario Outline: Verify if Place is being Successfully added using AddPlaceAPI
       | Canton del santi  | Melchor ocampo #42 | shop  | http://google.com | Spanish  |       50 |    -35.0 |     151.0 |
       | Canton del santi1 | Melchor ocampo #42 | shop  | http://google.com | Spanish  |       50 |    -35.0 |     151.0 |
 
+@DeletePlace
 Scenario Outline: Verify if Place is being Successfully deleted using deletePlaceAPI
     Given Delete Place Payload
     When User calls "deletePlaceAPI" with "Delete" http request
